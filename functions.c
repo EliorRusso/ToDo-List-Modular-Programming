@@ -1,8 +1,8 @@
-void seeTasks(todo *s){
+void seeTasks(todo *start){
   system("clear");
    todo *temp;
-   temp=s;
-        if(s==NULL){
+   temp=start;
+        if(start==NULL){
            printf("\nEmpty TODO\n\n");
         }
        while(temp!=NULL){
@@ -15,50 +15,51 @@ void seeTasks(todo *s){
        printf("\n\n\n");
    }
 
-todo* createtasks(todo* s){
+todo* createtasks(todo* start){
     char k;
     todo *t,*temp;
     fflush(stdin);
-    scanf("%c",&k);
-    if(s==NULL){ //Incase the list is empty, it adds one node to the list.
+    fgets(&k, 12, stdin);
+    //scanf("%c",&k);
+    if(start==NULL){ //Incase the list is empty, it adds one node to the list.
         t=(todo *)calloc(1,sizeof(todo)); //allocating node memory for adding it to the end of the list.
-        s=t;
+        start=t;
         printf("\nADD it..\n");
         fflush(stdin); //Clearing the stdin buffer.
-        gets(t->data);
+        fgets(&(t->data), 12, stdin);
         t->count=1;
-        s->link=NULL;
+        start->link=NULL;
        }
     else{
        temp=(todo *)calloc(1,sizeof(todo));
        printf("\nADD it..\n");
        printf("\n");//Allocating node memory for adding it to the end of the list
        fflush(stdin);
-       gets(temp->data);
+       fgets(&(temp->data), 12, stdin);
        temp->link=NULL;
        t->link=temp;
        t=t->link;
-     }fixcount(s);
-  return s;
+     }fixcount(start);
+  return start;
 }
-todo* deleteTasks(todo *s){
-  int d;
+todo* deleteTasks(todo *start){
+  int inputnum;
   todo *temp1,*temp;
   printf("\nEnter the no of the task you want to remove\n");
-  scanf("%d",&d);
-  temp1=s;
-  temp=s->link;
+  scanf("%d",&inputnum);
+  temp1=start;
+  temp=start->link;
   while(1){
-    if(temp1->count==d){//Using two nodes and freeing the middle one between them, after we call the fixcount in order the keep the order of the tasks.
-      s=s->link;
+    if(temp1->count==inputnum){//Using two nodes and freeing the middle one between them, after we call the fixcount in order the keep the order of the tasks.
+      start=start->link;
       free(temp1);
-      fixcount(s);
+      fixcount(start);
       break;
     }
-    if(temp->count==d){
+    if(temp->count==inputnum){
         temp1->link=temp->link;
         free(temp);
-        fixcount(s);
+        fixcount(start);
         break;
     }
     else{
@@ -66,13 +67,13 @@ todo* deleteTasks(todo *s){
         temp=temp->link;
     }
   }
-  return s;
+  return start;
 }
 
-void fixcount(todo *s){ //Function I found on the internet to fix the order of the list, it counts the number of nodes and changes the order accordingly.
+void fixcount(todo *start){ //Function I found on the internet to fix the order of the list, it counts the number of nodes and changes the order accordingly.
   todo *temp;
   int i=1;
-  temp=s;
+  temp=start;
   while(temp!=NULL){
     temp->count=i;
     i++;
@@ -81,12 +82,12 @@ void fixcount(todo *s){ //Function I found on the internet to fix the order of t
 
 }
 
-todo* updateTasks(todo *s){
+todo* updateTasks(todo *start){
   int d,x;
-  todo *temp1,*temp;
+  todo *temp;
   printf("\nEnter the no of the task you want to update\n");
   scanf("%d",&d);
-  temp = s;
+  temp = start;
   while(temp->count != d){ //as long as we didn't reach the count of the task, keep going.
     temp = temp->link;
   }
@@ -95,5 +96,5 @@ todo* updateTasks(todo *s){
   scanf("%s",&temp->data); //Getting the input from the user and changed the data of the requested node.
   printf("Updated, returning to the main lobby\n");
   sleep(2);
-  return s;
+  return start;
   }
